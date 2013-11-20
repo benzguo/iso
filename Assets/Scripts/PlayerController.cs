@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour {
 	
 	float cameraHeight;
 	Vector3 targetPos;
-	//	Vector3 previousPos;
 	
 	void Start () {
 		cameraHeight = mainCamera.transform.position.y; 
@@ -24,35 +23,17 @@ public class PlayerController : MonoBehaviour {
 			var cMousePos = cardinalize (rMousePos);
 			if (Vector3.Distance(rMousePos, Vector3.zero) >= 1) 
 			{
-				//				previousPos = targetPos;
 				targetPos = roundedVec(transform.position + cardinalize(rMousePos));
 			}
-			//			Debug.Log (targetPos);
 		}
 		
 		Vector3 targetDir = cardinalize (targetPos - transform.position);
-		bool shouldMove = !Physics.Raycast (targetPos, targetDir, 0.5f);
+		bool shouldMove = !Physics.Raycast (transform.position, targetDir, 0.5f);
 		if (shouldMove) {
 			transform.position = Vector3.MoveTowards (transform.position, targetPos, speed * Time.deltaTime);
 		}
-		Debug.Log (targetPos);
-		
-		
-		//		transform.rotation = Quaternion.identity;
 	}
-	
-	//	void OnTriggerEnter (Collider other)
-	//	{
-	//		var collisionPos = other.gameObject.transform.position;
-	//		lastCollisionDir = cardinalize (collisionPos - transform.position);
-	//		Debug.Log ("TRIGGER");
-	//		targetPos = transform.position;
-	//		transform.position = new Vector3 (transform.position.x, 0, transform.position.z);
-	//		if (other.gameObject.tag == "Ground") {
-	//		Debug.Log (lastCollisionDir);
-	//		}
-	//	}
-	
+
 	Vector3 cardinalize (Vector3 vector) {
 		Vector3 cv = Vector3.zero;
 		float ax = Mathf.Abs (vector.x);
