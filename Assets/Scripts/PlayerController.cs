@@ -3,21 +3,28 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
-
 		// The camera following the player.
 		public GameObject gFollowingCamera;
 		// The player's current speed.
 		public float gSpeed = 6.0f;
 		// The player's current normal vector.
 		public Vector3 gNormal;
+		
+		// Vector from the player's position to the ground
+		Vector3 groundVector;
+		
 		// The player's current plane.
 		public Plane gPlane;
+		
+		const string kRotatorTag = "Rotator";
+		
 		Vector3 targetPos;
-		bool atTargetPos;
+		GameObject ground;
 
 		void Start ()
 		{
 				gNormal = Vector3.up;
+				groundVector = Vector3.Scale(-gNormal, new Vector3(0.5f, 0.5f, 0.5f));
 				gPlane = new Plane (gNormal, transform.position);
 				targetPos = transform.position;
 		}
@@ -25,43 +32,61 @@ public class PlayerController : MonoBehaviour
 		void Update ()
 		{
 				Vector3 position = transform.position;
-		
+				bool atTargetPosition = position == targetPos;
+				if (atTargetPosition) {
+						RaycastHit hit;
+						Physics.Raycast(position, -gNormal, out hit);
+						ground = hit.collider.gameObject;
+						if (ground.tag == kRotatorTag) {
+//							transform.rotation.
+						}
+				}
+						
 				// get the target position from the mouse (or touch) position
 				if (Input.GetMouseButton (0)) {
 						Vector3 rMousePos = relativeMousePosition ();
-						Vector3 newTargetPos = intVector3 (position + toGrid (rMousePos));
+						Vector3 newTargetPos = toPosition(position + toGrid (rMousePos));
 						Vector3 targetDir = toGrid (newTargetPos - position);
+						Debug.Log ("position "+position);
+						Debug.Log("newTargetPos "+newTargetPos);
+						Debug.Log("rMousePos "+toGrid(rMousePos));
 			
-						RaycastHit hit;
-						bool colliderAtTarget = Physics.Raycast (position, targetDir, out hit, 1.0f); 
-						bool voidAtTarget = colliderAtTarget ? false : !Physics.Raycast (newTargetPos, -gNormal);
-						bool stepAboveTarget = colliderAtTarget ? Physics.Raycast (newTargetPos + gNormal, -gNormal, 1.0f) : false; 
-						bool stepBelowTarget = colliderAtTarget ? false : Physics.Raycast (newTargetPos - gNormal, -gNormal, 1.0f); 
-			
-						bool shouldUpdateTargetPosition = position == targetPos
-							&& Vector3.Distance (rMousePos, Vector3.zero) > 1;
-				
+						// Update target position if
+						// - you've reached the target position and
+						// - the touch isn't directly over you
+						bool shouldUpdateTargetPosition = atTargetPosition
+								&& Vector3.Distance (rMousePos, Vector3.zero) > 1;
 				
 						if (shouldUpdateTargetPosition) {
+								bool colliderAtTarget = Physics.Raycast (position, targetDir, 1.0f);
+								bool voidAtTarget = colliderAtTarget ? false : !Physics.Raycast (newTargetPos, -gNormal);
+								bool stepAboveTarget = colliderAtTarget ? Physics.Raycast (newTargetPos + gNormal, -gNormal, 1.0f) : false; 
+								bool stepBelowTarget = colliderAtTarget ? false : Physics.Raycast (newTargetPos - gNormal, -gNormal, 1.0f); 
+								
 								if (!colliderAtTarget && !voidAtTarget) {
+										// Step down.
 										if (stepBelowTarget) {
-												gPlane.distance -= 1.0f;
-//												transform.position = newTargetPos;
+												Debug.Log ("Step down");
 												newTargetPos -= gNormal;					
+												gPlane.SetNormalAndPosition(newTargetPos, gNormal);
 												targetPos = newTargetPos;
+										// Step forward.
 										} else {
+												Debug.Log ("Step forward");
 												targetPos = newTargetPos;
 										} 
 								}
+								// Step up.
 								else if (colliderAtTarget && stepAboveTarget) {
-									gPlane.distance += 1.0f;
-									newTargetPos += gNormal;
-									targetPos = newTargetPos;
+										Debug.Log ("Step up");
+										newTargetPos += gNormal;
+										gPlane.SetNormalAndPosition(newTargetPos, gNormal);
+										targetPos = newTargetPos;
 								}
 						}
 				}
 		
-				transform.position = stepTowards(position, targetPos, gSpeed * Time.deltaTime);
+				transform.position = stepTowards (position, targetPos, gSpeed * Time.deltaTime);
 		}
 	
 		// Returns the vector moving the current vector towards the target vector.
@@ -69,46 +94,44 @@ public class PlayerController : MonoBehaviour
 		// If the target point is below the current point, this will move it along the current plane and then down.
 		Vector3 stepTowards (Vector3 current, Vector3 target, float maxDistanceDelta)
 		{
-			Vector3 v = current;
-			Plane currentPlane = new Plane(gNormal, current);
-			float targetPlaneDelta = currentPlane.GetDistanceToPoint(target);
-			Vector3 targetPlaneVector = new Vector3(gNormal.x*targetPlaneDelta,
-												    gNormal.y*targetPlaneDelta,
-												    gNormal.z*targetPlaneDelta);
-			Vector3 targetInCurrentPlane = target - targetPlaneVector;
-			Vector3 currentInTargetPlane = current + targetPlaneVector;
-			if (targetPlaneDelta == 0) {
-				v = Vector3.MoveTowards(current, target, maxDistanceDelta); 
-			}
-			else if (targetPlaneDelta > 0) {
-				v = Vector3.MoveTowards(current, currentInTargetPlane, maxDistanceDelta);
-			}
-			else { 
-				if (current != targetInCurrentPlane) {
-					v = Vector3.MoveTowards(current, targetInCurrentPlane, maxDistanceDelta);	
-				}
-				else {
-					v = Vector3.MoveTowards(current, currentInTargetPlane, maxDistanceDelta);
-				}
-			}	
-			return v;
+				Vector3 v = current;
+				Plane currentPlane = new Plane (gNormal, current);
+				float targetPlaneDelta = currentPlane.GetDistanceToPoint (target);
+				Vector3 targetPlaneVector = new Vector3 (gNormal.x * targetPlaneDelta,
+												  	     gNormal.y * targetPlaneDelta,
+												         gNormal.z * targetPlaneDelta);
+				Vector3 targetInCurrentPlane = target - targetPlaneVector;
+				Vector3 currentInTargetPlane = current + targetPlaneVector;
+				if (targetPlaneDelta == 0) {
+						v = Vector3.MoveTowards (current, target, maxDistanceDelta); 
+				} else if (targetPlaneDelta > 0) {
+						v = Vector3.MoveTowards (current, currentInTargetPlane, maxDistanceDelta);
+				} else { 
+						if (current != targetInCurrentPlane) {
+								v = Vector3.MoveTowards (current, targetInCurrentPlane, maxDistanceDelta);	
+						} else {
+								v = Vector3.MoveTowards (current, currentInTargetPlane, maxDistanceDelta);
+						}
+				}	
+				return v;
 		}
 
 		Vector3 relativeMousePosition ()
 		{
-				float cameraHeight = gPlane.GetDistanceToPoint (gFollowingCamera.transform.position);
 				Vector3 mousePos = Input.mousePosition;
+				// NOTE: assuming camera is directly above player
+				float cameraHeight = Vector3.Distance(gFollowingCamera.transform.position, transform.position);
 				mousePos.z = cameraHeight;
 				return Camera.main.ScreenToWorldPoint (mousePos) - transform.position;
 		}
 
-		// Converts a Vector3 to the grid on the current plane
+		// Converts a Vector3 to the grid
 		Vector3 toGrid (Vector3 vector)
 		{
-				Vector3 v = Vector3.zero;
-				float ax = Mathf.Abs (vector.x);
-				float ay = Mathf.Abs (vector.y);
-				float az = Mathf.Abs (vector.z);
+				Vector3 v = Vector3.zero;	
+				float ax = Mathf.Abs(vector.x);
+				float ay = Mathf.Abs(vector.y);
+				float az = Mathf.Abs(vector.z);
 		
 				if (gNormal == Vector3.down || gNormal == Vector3.up) {	
 						if (ax > az) {
@@ -131,18 +154,19 @@ public class PlayerController : MonoBehaviour
 				}
 				return v;
 		}
-
-		Vector3 intVector3 (Vector3 v)
+		
+		// Rounds a Vector3 to a valid position taking into account the current plane 
+		Vector3 toPosition(Vector3 v)
 		{
 				int x = Mathf.RoundToInt (v.x);
 				int y = Mathf.RoundToInt (v.y);
 				int z = Mathf.RoundToInt (v.z);
 				if (gNormal == Vector3.down || gNormal == Vector3.up) {	
-						y = Mathf.RoundToInt (gPlane.distance);
+						y = Mathf.RoundToInt(gPlane.distance) * (int)Mathf.Sign(y);
 				} else if (gNormal == Vector3.left || gNormal == Vector3.right) {
-						x = Mathf.RoundToInt (gPlane.distance);		
+						x = Mathf.RoundToInt(gPlane.distance) * (int)Mathf.Sign(x);		
 				} else if (gNormal == Vector3.forward || gNormal == Vector3.back) {
-						z = Mathf.RoundToInt (gPlane.distance);
+						z = Mathf.RoundToInt(gPlane.distance) * (int)Mathf.Sign(z);
 				}
 				return new Vector3 (x, y, z);
 		}
