@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
 
 		void Start ()
 		{
-				gNormal = Vector3.right;
+				gNormal = Vector3.up;
 				groundVector = Vector3.Scale(-gNormal, new Vector3(0.5f, 0.5f, 0.5f));
 				gPlane = new Plane (gNormal, transform.position);
 				targetPos = transform.position;
@@ -61,8 +61,18 @@ public class PlayerController : MonoBehaviour
 						if (shouldUpdateTargetPosition) {
 								bool colliderAtTarget = Physics.Raycast (position, targetDir, 1.0f);
 								bool voidAtTarget = colliderAtTarget ? false : !Physics.Raycast (newTargetPos, -gNormal);
-								bool stepAboveTarget = colliderAtTarget ? Physics.Raycast (newTargetPos + gNormal, -gNormal, 1.0f) : false; 
-								bool stepBelowTarget = colliderAtTarget ? false : Physics.Raycast (newTargetPos - gNormal, -gNormal, 1.0f); 
+								
+								bool stepAboveTarget = false;
+								if (colliderAtTarget) {
+										stepAboveTarget = Physics.Raycast(newTargetPos + gNormal, -gNormal, 0.5f)   
+													  && !Physics.Raycast(position + groundVector, -gNormal, 1.0f)
+													  && !Physics.Raycast(position - gNormal, targetDir, 1.5f);
+								}
+								
+								bool stepBelowTarget = false;
+								if (!colliderAtTarget) {
+									stepBelowTarget = Physics.Raycast (newTargetPos - gNormal, -gNormal, 1.0f); 
+								}
 								
 								if (!colliderAtTarget && !voidAtTarget) {
 										// Step down.
