@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
 
 		void Start ()
 		{
-				gNormal = Vector3.up;
+				gNormal = Vector3.right;
 				groundVector = Vector3.Scale(-gNormal, new Vector3(0.5f, 0.5f, 0.5f));
 				gPlane = new Plane (gNormal, transform.position);
 				targetPos = transform.position;
@@ -47,9 +47,9 @@ public class PlayerController : MonoBehaviour
 						Vector3 rMousePos = relativeMousePosition ();
 						Vector3 newTargetPos = toPosition(position + toGrid (rMousePos));
 						Vector3 targetDir = toGrid (newTargetPos - position);
-						Debug.Log ("position "+position);
-						Debug.Log("newTargetPos "+newTargetPos);
-						Debug.Log("rMousePos "+toGrid(rMousePos));
+//						Debug.Log ("position "+position);
+//						Debug.Log("newTargetPos "+newTargetPos);
+//						Debug.Log("rMousePos "+toGrid(rMousePos));
 			
 						// Update target position if
 						// - you've reached the target position and
@@ -59,9 +59,9 @@ public class PlayerController : MonoBehaviour
 				
 						if (shouldUpdateTargetPosition) {
 								bool colliderAtTarget = Physics.Raycast (position, targetDir, 1.0f);
-								bool voidAtTarget = colliderAtTarget ? false : !Physics.Raycast (newTargetPos, -gNormal);
-								bool stepAboveTarget = colliderAtTarget ? Physics.Raycast (newTargetPos + gNormal, -gNormal, 1.0f) : false; 
-								bool stepBelowTarget = colliderAtTarget ? false : Physics.Raycast (newTargetPos - gNormal, -gNormal, 1.0f); 
+								bool voidAtTarget = false;//colliderAtTarget ? false : !Physics.Raycast (newTargetPos, -gNormal);
+								bool stepAboveTarget = false;//colliderAtTarget ? Physics.Raycast (newTargetPos + gNormal, -gNormal, 1.0f) : false; 
+								bool stepBelowTarget = false;//colliderAtTarget ? false : Physics.Raycast (newTargetPos - gNormal, -gNormal, 1.0f); 
 								
 								if (!colliderAtTarget && !voidAtTarget) {
 										// Step down.
@@ -128,7 +128,7 @@ public class PlayerController : MonoBehaviour
 		// Converts a Vector3 to the grid
 		Vector3 toGrid (Vector3 vector)
 		{
-				Vector3 v = Vector3.zero;	
+				Vector3 v = Vector3.zero;
 				float ax = Mathf.Abs(vector.x);
 				float ay = Mathf.Abs(vector.y);
 				float az = Mathf.Abs(vector.z);
@@ -162,11 +162,11 @@ public class PlayerController : MonoBehaviour
 				int y = Mathf.RoundToInt (v.y);
 				int z = Mathf.RoundToInt (v.z);
 				if (gNormal == Vector3.down || gNormal == Vector3.up) {	
-						y = Mathf.RoundToInt(gPlane.distance) * (int)Mathf.Sign(y);
+						y = Mathf.RoundToInt(-gPlane.distance);
 				} else if (gNormal == Vector3.left || gNormal == Vector3.right) {
-						x = Mathf.RoundToInt(gPlane.distance) * (int)Mathf.Sign(x);		
+						x = Mathf.RoundToInt(-gPlane.distance);		
 				} else if (gNormal == Vector3.forward || gNormal == Vector3.back) {
-						z = Mathf.RoundToInt(gPlane.distance) * (int)Mathf.Sign(z);
+						z = Mathf.RoundToInt(-gPlane.distance);
 				}
 				return new Vector3 (x, y, z);
 		}
