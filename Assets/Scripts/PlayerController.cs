@@ -49,7 +49,8 @@ public class PlayerController : MonoBehaviour
 						Vector3 targetDir = toGrid (newTargetPos - position);
 //						Debug.Log ("position "+position);
 //						Debug.Log("newTargetPos "+newTargetPos);
-//						Debug.Log("rMousePos "+toGrid(rMousePos));
+						Debug.Log("rMousePos "+rMousePos);
+						Debug.Log("toGrid(rMousePos)"+toGrid(rMousePos));
 			
 						// Update target position if
 						// - you've reached the target position and
@@ -59,9 +60,9 @@ public class PlayerController : MonoBehaviour
 				
 						if (shouldUpdateTargetPosition) {
 								bool colliderAtTarget = Physics.Raycast (position, targetDir, 1.0f);
-								bool voidAtTarget = false;//colliderAtTarget ? false : !Physics.Raycast (newTargetPos, -gNormal);
-								bool stepAboveTarget = false;//colliderAtTarget ? Physics.Raycast (newTargetPos + gNormal, -gNormal, 1.0f) : false; 
-								bool stepBelowTarget = false;//colliderAtTarget ? false : Physics.Raycast (newTargetPos - gNormal, -gNormal, 1.0f); 
+								bool voidAtTarget = colliderAtTarget ? false : !Physics.Raycast (newTargetPos, -gNormal);
+								bool stepAboveTarget = colliderAtTarget ? Physics.Raycast (newTargetPos + gNormal, -gNormal, 1.0f) : false; 
+								bool stepBelowTarget = colliderAtTarget ? false : Physics.Raycast (newTargetPos - gNormal, -gNormal, 1.0f); 
 								
 								if (!colliderAtTarget && !voidAtTarget) {
 										// Step down.
@@ -141,7 +142,7 @@ public class PlayerController : MonoBehaviour
 						}
 				} else if (gNormal == Vector3.left || gNormal == Vector3.right) {
 						if (ay > az) {
-								v.y = vector.y / ax;
+								v.y = vector.y / ay;
 						} else {
 								v.z = vector.z / az;
 						}
