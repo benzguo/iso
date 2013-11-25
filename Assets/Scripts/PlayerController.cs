@@ -16,10 +16,12 @@ public class PlayerController : MonoBehaviour
 		// The player's current plane.
 		public Plane gPlane;
 		
-		const string kRotatorTag = "Rotator";
+		const string kRotatorLeftTag = "RotatorLeft";
+		const string kRotatorUpTag = "RotatorUp";
 		
 		Vector3 targetPos;
 		GameObject ground;
+		CameraController cameraController; 
 
 		void Start ()
 		{
@@ -27,6 +29,7 @@ public class PlayerController : MonoBehaviour
 				groundVector = Vector3.Scale(-gNormal, new Vector3(0.5f, 0.5f, 0.5f));
 				gPlane = new Plane (gNormal, transform.position);
 				targetPos = transform.position;
+				cameraController = gFollowingCamera.GetComponent<CameraController>();
 		}
 
 		void Update ()
@@ -37,8 +40,12 @@ public class PlayerController : MonoBehaviour
 						RaycastHit hit;
 						Physics.Raycast(position, -gNormal, out hit);
 						ground = hit.collider.gameObject;
-						if (ground.tag == kRotatorTag) {
-//							transform.rotation.
+						if (ground.tag == kRotatorLeftTag) {
+							cameraController.RotateLeft();
+							gNormal = Vector3.left;
+						} else if (ground.tag == kRotatorUpTag) {
+							cameraController.RotateUp();
+							gNormal = Vector3.up;
 						}
 				}
 						
@@ -47,10 +54,6 @@ public class PlayerController : MonoBehaviour
 						Vector3 rMousePos = relativeMousePosition ();
 						Vector3 newTargetPos = toPosition(position + toGrid (rMousePos));
 						Vector3 targetDir = toGrid (newTargetPos - position);
-//						Debug.Log ("position "+position);
-//						Debug.Log("newTargetPos "+newTargetPos);
-						Debug.Log("rMousePos "+rMousePos);
-						Debug.Log("toGrid(rMousePos)"+toGrid(rMousePos));
 			
 						// Update target position if
 						// - you've reached the target position and
@@ -77,19 +80,16 @@ public class PlayerController : MonoBehaviour
 								if (!colliderAtTarget && !voidAtTarget) {
 										// Step down.
 										if (stepBelowTarget) {
-												Debug.Log ("Step down");
 												newTargetPos -= gNormal;					
 												gPlane.SetNormalAndPosition(newTargetPos, gNormal);
 												targetPos = newTargetPos;
 										// Step forward.
 										} else {
-												Debug.Log ("Step forward");
 												targetPos = newTargetPos;
 										} 
 								}
 								// Step up.
 								else if (colliderAtTarget && stepAboveTarget) {
-										Debug.Log ("Step up");
 										newTargetPos += gNormal;
 										gPlane.SetNormalAndPosition(newTargetPos, gNormal);
 										targetPos = newTargetPos;
@@ -166,19 +166,12 @@ public class PlayerController : MonoBehaviour
 				return v;
 		}
 		
-		// Rounds a Vector3 to a valid position taking into account the current plane 
+		// Rounds a Vector3 to a valid position 
 		Vector3 toPosition(Vector3 v)
 		{
-				int x = Mathf.RoundToInt (v.x);
-				int y = Mathf.RoundToInt (v.y);
-				int z = Mathf.RoundToInt (v.z);
-				if (gNormal == Vector3.down || gNormal == Vector3.up) {	
-						y = Mathf.RoundToInt(-gPlane.distance);
-				} else if (gNormal == Vector3.left || gNormal == Vector3.right) {
-						x = Mathf.RoundToInt(-gPlane.distance);		
-				} else if (gNormal == Vector3.forward || gNormal == Vector3.back) {
-						z = Mathf.RoundToInt(-gPlane.distance);
-				}
+				int x = Mathf.RoundToInt(v.x);
+				int y = Mathf.RoundToInt(v.y);
+				int z = Mathf.RoundToInt(v.z);
 				return new Vector3 (x, y, z);
 		}
 
