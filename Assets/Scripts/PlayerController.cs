@@ -15,21 +15,20 @@ public class PlayerController : MonoBehaviour
 		
 		// The player's current plane.
 		public Plane gPlane;
-		
+		const string kRotatorDownTag = "RotatorDown";
 		const string kRotatorLeftTag = "RotatorLeft";
 		const string kRotatorUpTag = "RotatorUp";
-		
 		Vector3 targetPos;
 		GameObject ground;
-		CameraController cameraController; 
+		CameraController cameraController;
 
 		void Start ()
 		{
 				gNormal = Vector3.up;
-				groundVector = Vector3.Scale(-gNormal, new Vector3(0.5f, 0.5f, 0.5f));
+				groundVector = Vector3.Scale (-gNormal, new Vector3 (0.5f, 0.5f, 0.5f));
 				gPlane = new Plane (gNormal, transform.position);
 				targetPos = transform.position;
-				cameraController = gFollowingCamera.GetComponent<CameraController>();
+				cameraController = gFollowingCamera.GetComponent<CameraController> ();
 		}
 
 		void Update ()
@@ -38,21 +37,25 @@ public class PlayerController : MonoBehaviour
 				bool atTargetPosition = position == targetPos;
 				if (atTargetPosition) {
 						RaycastHit hit;
-						Physics.Raycast(position, -gNormal, out hit);
+						Physics.Raycast (position, -gNormal, out hit);
 						ground = hit.collider.gameObject;
-						if (ground.tag == kRotatorLeftTag) {
-							cameraController.RotateLeft();
-							gNormal = Vector3.left;
+						if (ground.tag == kRotatorDownTag) {
+								cameraController.RotateDown ();
+								gNormal = Vector3.down;	
+						}
+						else if (ground.tag == kRotatorLeftTag) {
+								cameraController.RotateLeft ();
+								gNormal = Vector3.left;
 						} else if (ground.tag == kRotatorUpTag) {
-							cameraController.RotateUp();
-							gNormal = Vector3.up;
+								cameraController.RotateUp ();
+								gNormal = Vector3.up;
 						}
 				}
 						
 				// get the target position from the mouse (or touch) position
 				if (Input.GetMouseButton (0)) {
 						Vector3 rMousePos = relativeMousePosition ();
-						Vector3 newTargetPos = toPosition(position + toGrid (rMousePos));
+						Vector3 newTargetPos = toPosition (position + toGrid (rMousePos));
 						Vector3 targetDir = toGrid (newTargetPos - position);
 			
 						// Update target position if
@@ -67,23 +70,23 @@ public class PlayerController : MonoBehaviour
 								
 								bool stepAboveTarget = false;
 								if (colliderAtTarget) {
-										stepAboveTarget = Physics.Raycast(newTargetPos + gNormal, -gNormal, 0.5f)   
-													  && !Physics.Raycast(position + groundVector, -gNormal, 1.0f)
-													  && !Physics.Raycast(position - gNormal, targetDir, 1.5f);
+										stepAboveTarget = Physics.Raycast (newTargetPos + gNormal, -gNormal, 0.5f)   
+												&& !Physics.Raycast (position + groundVector, -gNormal, 1.0f)
+												&& !Physics.Raycast (position - gNormal, targetDir, 1.5f);
 								}
 								
 								bool stepBelowTarget = false;
 								if (!colliderAtTarget) {
-									stepBelowTarget = Physics.Raycast (newTargetPos - gNormal, -gNormal, 1.0f); 
+										stepBelowTarget = Physics.Raycast (newTargetPos - gNormal, -gNormal, 1.0f); 
 								}
 								
 								if (!colliderAtTarget && !voidAtTarget) {
 										// Step down.
 										if (stepBelowTarget) {
 												newTargetPos -= gNormal;					
-												gPlane.SetNormalAndPosition(newTargetPos, gNormal);
+												gPlane.SetNormalAndPosition (newTargetPos, gNormal);
 												targetPos = newTargetPos;
-										// Step forward.
+												// Step forward.
 										} else {
 												targetPos = newTargetPos;
 										} 
@@ -91,7 +94,7 @@ public class PlayerController : MonoBehaviour
 								// Step up.
 								else if (colliderAtTarget && stepAboveTarget) {
 										newTargetPos += gNormal;
-										gPlane.SetNormalAndPosition(newTargetPos, gNormal);
+										gPlane.SetNormalAndPosition (newTargetPos, gNormal);
 										targetPos = newTargetPos;
 								}
 						}
@@ -131,7 +134,7 @@ public class PlayerController : MonoBehaviour
 		{
 				Vector3 mousePos = Input.mousePosition;
 				// NOTE: assuming camera is directly above player
-				float cameraHeight = Vector3.Distance(gFollowingCamera.transform.position, transform.position);
+				float cameraHeight = Vector3.Distance (gFollowingCamera.transform.position, transform.position);
 				mousePos.z = cameraHeight;
 				return Camera.main.ScreenToWorldPoint (mousePos) - transform.position;
 		}
@@ -140,9 +143,9 @@ public class PlayerController : MonoBehaviour
 		Vector3 toGrid (Vector3 vector)
 		{
 				Vector3 v = Vector3.zero;
-				float ax = Mathf.Abs(vector.x);
-				float ay = Mathf.Abs(vector.y);
-				float az = Mathf.Abs(vector.z);
+				float ax = Mathf.Abs (vector.x);
+				float ay = Mathf.Abs (vector.y);
+				float az = Mathf.Abs (vector.z);
 		
 				if (gNormal == Vector3.down || gNormal == Vector3.up) {	
 						if (ax > az) {
@@ -167,11 +170,11 @@ public class PlayerController : MonoBehaviour
 		}
 		
 		// Rounds a Vector3 to a valid position 
-		Vector3 toPosition(Vector3 v)
+		Vector3 toPosition (Vector3 v)
 		{
-				int x = Mathf.RoundToInt(v.x);
-				int y = Mathf.RoundToInt(v.y);
-				int z = Mathf.RoundToInt(v.z);
+				int x = Mathf.RoundToInt (v.x);
+				int y = Mathf.RoundToInt (v.y);
+				int z = Mathf.RoundToInt (v.z);
 				return new Vector3 (x, y, z);
 		}
 

@@ -4,9 +4,13 @@ using System.Collections;
 public class CameraController : MonoBehaviour {
 
 	public GameObject player;
+	public float gRotationSpeed = 6.0f;
+
+	Vector3 POSITION_DOWN = new Vector3(0.0f, -10.0f, 0.0f);
+	Quaternion ROTATION_DOWN = Quaternion.Euler(270.0f, 90.0f, 90.0f);
 
 	Vector3 POSITION_LEFT = new Vector3(-10.0f, 0.0f, 0.0f); 
-	Quaternion ROTATION_LEFT = Quaternion.Euler(0.0f, 90.0f, 0.0f);
+	Quaternion ROTATION_LEFT = Quaternion.Euler(0.0f, 90.0f, 90.0f);
 
 	Vector3 POSITION_UP = new Vector3(0.0f, 10.0f, 0.0f);
 	Quaternion ROTATION_UP = Quaternion.Euler(90.0f, 0.0f, 0.0f);
@@ -20,9 +24,19 @@ public class CameraController : MonoBehaviour {
 	}
 	
 	void LateUpdate () {
-		transform.position = player.transform.position + targetPosition;
-//		transform.position = targetPosition;
-		transform.rotation = targetRotation;	
+//		if (transform.position != targetPosition) {
+			transform.position = Vector3.Slerp(transform.position, 
+											   player.transform.position + targetPosition, 
+											   gRotationSpeed * Time.deltaTime);
+//		}
+		if (transform.rotation != targetRotation) {
+			transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, gRotationSpeed * Time.deltaTime);	
+		}
+	}
+	
+	public void RotateDown () {
+		targetPosition = POSITION_DOWN;
+		targetRotation = ROTATION_DOWN;
 	}
 	
 	public void RotateLeft () {
