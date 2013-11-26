@@ -15,8 +15,10 @@ public class PlayerController : MonoBehaviour
 		
 		// The player's current plane.
 		public Plane gPlane;
+		const string kRotatorBackTag = "RotatorBack";
 		const string kRotatorDownTag = "RotatorDown";
 		const string kRotatorLeftTag = "RotatorLeft";
+		const string kRotatorRightTag = "RotatorRight";
 		const string kRotatorUpTag = "RotatorUp";
 		Vector3 targetPos;
 		GameObject ground;
@@ -39,6 +41,7 @@ public class PlayerController : MonoBehaviour
 						RaycastHit hit;
 						Physics.Raycast (position, -gNormal, out hit);
 						ground = hit.collider.gameObject;
+						Debug.Log (ground.tag);
 						if (ground.tag == kRotatorDownTag) {
 								cameraController.RotateDown ();
 								gNormal = Vector3.down;	
@@ -46,9 +49,14 @@ public class PlayerController : MonoBehaviour
 						else if (ground.tag == kRotatorLeftTag) {
 								cameraController.RotateLeft ();
 								gNormal = Vector3.left;
-						} else if (ground.tag == kRotatorUpTag) {
+						} 
+						else if (ground.tag == kRotatorUpTag) {
 								cameraController.RotateUp ();
 								gNormal = Vector3.up;
+						} 
+						else if (ground.tag == kRotatorRightTag) {
+								cameraController.RotateRight();
+								gNormal = Vector3.right;
 						}
 				}
 						
