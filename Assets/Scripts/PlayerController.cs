@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
 		public Plane gPlane;
 		const string kRotatorBackTag = "RotatorBack";
 		const string kRotatorDownTag = "RotatorDown";
+		const string kRotatorForwardTag = "RotatorForward";
 		const string kRotatorLeftTag = "RotatorLeft";
 		const string kRotatorRightTag = "RotatorRight";
 		const string kRotatorUpTag = "RotatorUp";
@@ -42,16 +43,24 @@ public class PlayerController : MonoBehaviour
 						Physics.Raycast (position, -gNormal, out hit);
 						ground = hit.collider.gameObject;
 						Debug.Log (ground.tag);
-						if (ground.tag == kRotatorDownTag) {
-								cameraController.RotateDown ();
+						if (ground.tag == kRotatorBackTag) {
+								cameraController.RotateBack();
+								gNormal = Vector3.back;
+						}
+						else if (ground.tag == kRotatorDownTag) {
+								cameraController.RotateDown();
 								gNormal = Vector3.down;	
 						}
+						else if (ground.tag == kRotatorForwardTag) {
+								cameraController.RotateForward();
+								gNormal = Vector3.forward;
+						}
 						else if (ground.tag == kRotatorLeftTag) {
-								cameraController.RotateLeft ();
+								cameraController.RotateLeft();
 								gNormal = Vector3.left;
 						} 
 						else if (ground.tag == kRotatorUpTag) {
-								cameraController.RotateUp ();
+								cameraController.RotateUp();
 								gNormal = Vector3.up;
 						} 
 						else if (ground.tag == kRotatorRightTag) {
