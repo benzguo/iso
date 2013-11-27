@@ -1,9 +1,6 @@
 _Store
-Library
-Builds
 Temp
-*.csproj
+Library
+Build
 *.pidb
-*.unityproj
-*.sln
 *.userprefs
