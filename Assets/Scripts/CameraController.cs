@@ -79,9 +79,9 @@ public class CameraController : MonoBehaviour
 
 		void Start ()
 		{
-				orientation = Orientations.UpBack;
+				orientation = Orientations.UpLeft;
 				targetPosition = POSITION_UP;
-				targetRotation = ROTATION_UP_B;
+				targetRotation = ROTATION_UP_L;
 		}
 	
 		void LateUpdate ()
@@ -112,15 +112,15 @@ public class CameraController : MonoBehaviour
   		        }
 				else if (orientation == Orientations.ForwardLeft
 					  || orientation == Orientations.BackLeft 
-					  || orientation == Orientations.LeftUp
-					  || orientation == Orientations.RightDown) {
+					  || orientation == Orientations.RightUp
+					  || orientation == Orientations.LeftDown) {
 						targetRotation = ROTATION_UP_L;
 						orientation = Orientations.UpLeft;	  
 			  	}
 			  	else if (orientation == Orientations.ForwardRight
 			  		  || orientation == Orientations.BackRight
-			  		  || orientation == Orientations.RightUp
-			  		  || orientation == Orientations.LeftDown) {
+			  		  || orientation == Orientations.LeftUp
+			  		  || orientation == Orientations.RightDown) {
 			  			targetRotation = ROTATION_UP_R;
 			  			orientation = Orientations.UpRight;	  
 	  		    }
@@ -132,15 +132,15 @@ public class CameraController : MonoBehaviour
 		
 		public void RotateDown ()
 		{
-				if (orientation == Orientations.LeftForward
-				 || orientation == Orientations.RightForward
+				if (orientation == Orientations.LeftBack
+				 || orientation == Orientations.RightBack
 				 || orientation == Orientations.BackUp
 				 || orientation == Orientations.ForwardDown) {
 						targetRotation = ROTATION_DOWN_B;
 						orientation = Orientations.DownBack; 
 				}
-				else if (orientation == Orientations.LeftBack
-					  || orientation == Orientations.RightBack
+				else if (orientation == Orientations.LeftForward
+					  || orientation == Orientations.RightForward
 					  || orientation == Orientations.BackDown
 					  || orientation == Orientations.ForwardUp) {
 					  	targetRotation = ROTATION_DOWN_F;
@@ -169,15 +169,15 @@ public class CameraController : MonoBehaviour
 		public void RotateForward ()
 		{
 				if (orientation == Orientations.UpForward
-				 || orientation == Orientations.RightForward
-				 || orientation == Orientations.LeftForward
+				 || orientation == Orientations.RightDown
+				 || orientation == Orientations.LeftDown
 				 || orientation == Orientations.DownBack) {
 						targetRotation = ROTATION_FORWARD_D;
 						orientation = Orientations.ForwardDown; 
 				}
 				else if (orientation == Orientations.UpBack
-				      || orientation == Orientations.RightBack
-				      || orientation == Orientations.LeftBack
+				      || orientation == Orientations.RightUp
+				      || orientation == Orientations.LeftUp
 				      || orientation == Orientations.DownForward) {
 				      	targetRotation = ROTATION_FORWARD_U;
 				      	orientation = Orientations.ForwardUp;
@@ -190,9 +190,9 @@ public class CameraController : MonoBehaviour
 						orientation = Orientations.ForwardLeft;      
 			    }
 			    else if (orientation == Orientations.UpRight
-			          || orientation == Orientations.RightBack
+			          || orientation == Orientations.LeftForward
 			          || orientation == Orientations.DownRight
-			          || orientation == Orientations.LeftForward) {
+			          || orientation == Orientations.RightBack) {
 			    		targetRotation = ROTATION_FORWARD_R;
 			    		orientation = Orientations.ForwardRight;      
 	            }
@@ -205,30 +205,30 @@ public class CameraController : MonoBehaviour
 		public void RotateBack ()
 		{
 				if (orientation == Orientations.UpForward
-				 || orientation == Orientations.RightForward
-				 || orientation == Orientations.LeftForward
+				 || orientation == Orientations.RightUp
+				 || orientation == Orientations.LeftUp
 				 || orientation == Orientations.DownBack) {
 						targetRotation = ROTATION_BACK_U;
 						orientation = Orientations.BackUp; 
 				}
 				else if (orientation == Orientations.UpBack
-				      || orientation == Orientations.RightBack
-				      || orientation == Orientations.LeftBack
+				      || orientation == Orientations.RightDown
+				      || orientation == Orientations.LeftDown
 				      || orientation == Orientations.DownForward) {
 				      	targetRotation = ROTATION_BACK_D;
 				      	orientation = Orientations.BackDown;
 		        }
 				else if (orientation == Orientations.UpLeft
-				      || orientation == Orientations.RightForward
+				      || orientation == Orientations.LeftForward
 				      || orientation == Orientations.DownLeft
-				      || orientation == Orientations.LeftBack) {
+				      || orientation == Orientations.RightBack) {
 						targetRotation = ROTATION_BACK_L;
 						orientation = Orientations.BackLeft;      
 			    }
 			    else if (orientation == Orientations.UpRight
-			          || orientation == Orientations.RightBack
+			          || orientation == Orientations.RightForward
 			          || orientation == Orientations.DownRight
-			          || orientation == Orientations.LeftForward) {
+			          || orientation == Orientations.LeftBack) {
 			    		targetRotation = ROTATION_BACK_R;
 			    		orientation = Orientations.BackRight;      
 	            }
@@ -241,11 +241,74 @@ public class CameraController : MonoBehaviour
 			
 		public void RotateLeft ()
 		{
-
+				if (orientation == Orientations.UpForward
+				 || orientation == Orientations.DownForward
+				 || orientation == Orientations.BackLeft
+				 || orientation == Orientations.ForwardRight) {
+						targetRotation = ROTATION_LEFT_F;
+						orientation = Orientations.LeftForward; 
+				}
+				else if (orientation == Orientations.UpBack
+				      || orientation == Orientations.DownBack
+				      || orientation == Orientations.BackRight
+				      || orientation == Orientations.ForwardLeft) {
+				      	targetRotation = ROTATION_LEFT_B;
+				      	orientation = Orientations.LeftBack;
+		      	}
+		      	else if (orientation == Orientations.BackUp
+		      		  || orientation == Orientations.ForwardUp
+		      		  || orientation == Orientations.UpRight
+		      		  || orientation == Orientations.DownLeft) {
+		      		  	targetRotation = ROTATION_LEFT_U;
+		      		  	orientation = Orientations.LeftUp;
+      		  	}
+      		  	else if (orientation == Orientations.BackDown
+      		  		  || orientation == Orientations.ForwardDown
+      		  		  || orientation == Orientations.UpLeft
+      		  		  || orientation == Orientations.DownRight) {
+      		  		  	targetRotation = ROTATION_LEFT_D;
+      		  		  	orientation = Orientations.LeftDown;
+	  		  	}
+				else {
+						return;
+				}
+				targetPosition = POSITION_LEFT;
 		}
 	
 		public void RotateRight ()
 		{
+				if (orientation == Orientations.UpForward
+				 || orientation == Orientations.DownForward
+			     || orientation == Orientations.BackRight
+			     || orientation == Orientations.ForwardLeft) {
+						targetRotation = ROTATION_RIGHT_F;
+						orientation = Orientations.RightForward; 
+				}
+				else if (orientation == Orientations.UpBack
+			          || orientation == Orientations.DownBack
+			          || orientation == Orientations.BackLeft
+			          || orientation == Orientations.ForwardRight) {
+						targetRotation = ROTATION_RIGHT_B;
+						orientation = Orientations.RightBack;
+				}
+				else if (orientation == Orientations.BackUp
+			          || orientation == Orientations.ForwardUp
+			          || orientation == Orientations.UpLeft
+		    	      || orientation == Orientations.DownRight) {
+						targetRotation = ROTATION_RIGHT_U;
+						orientation = Orientations.RightUp;
+				}
+				else if (orientation == Orientations.BackDown
+    			      || orientation == Orientations.ForwardDown
+				      || orientation == Orientations.UpRight
+				      || orientation == Orientations.DownLeft) {
+						targetRotation = ROTATION_RIGHT_D;
+						orientation = Orientations.RightDown;
+				}
+				else {
+						return;
+				}
+				targetPosition = POSITION_RIGHT;
 
 		}
 }
