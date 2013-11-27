@@ -42,7 +42,6 @@ public class PlayerController : MonoBehaviour
 						RaycastHit hit;
 						Physics.Raycast (position, -gNormal, out hit);
 						ground = hit.collider.gameObject;
-						Debug.Log (ground.tag);
 						if (ground.tag == kRotatorBackTag) {
 								cameraController.RotateBack();
 								gNormal = Vector3.back;
