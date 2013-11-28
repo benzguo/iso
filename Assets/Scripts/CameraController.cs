@@ -70,7 +70,7 @@ public class CameraController : MonoBehaviour
 		Quaternion ROTATION_RIGHT_F = Quaternion.Euler (0.0f, 270.0f, 270.0f);
 		
 		public GameObject player;
-		public float gRotationSpeed = 6.0f;
+		public float gRotationSpeed;
 		
 		Vector3 targetPosition;
 		Vector3 normal;
