@@ -1,0 +1,97 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+BackDown	Assets/Scripts/CameraController.cs	/^        BackDown,$/;"	e	enum:CameraController.Orientations	file:
+BackLeft	Assets/Scripts/CameraController.cs	/^        BackLeft,$/;"	e	enum:CameraController.Orientations	file:
+BackRight	Assets/Scripts/CameraController.cs	/^        BackRight,$/;"	e	enum:CameraController.Orientations	file:
+BackUp	Assets/Scripts/CameraController.cs	/^        BackUp,$/;"	e	enum:CameraController.Orientations	file:
+CameraController	Assets/Scripts/CameraController.cs	/^public class CameraController : MonoBehaviour$/;"	c
+DownBack	Assets/Scripts/CameraController.cs	/^        DownBack,$/;"	e	enum:CameraController.Orientations	file:
+DownForward	Assets/Scripts/CameraController.cs	/^        DownForward,$/;"	e	enum:CameraController.Orientations	file:
+DownLeft	Assets/Scripts/CameraController.cs	/^        DownLeft,$/;"	e	enum:CameraController.Orientations	file:
+DownRight	Assets/Scripts/CameraController.cs	/^        DownRight,$/;"	e	enum:CameraController.Orientations	file:
+ForwardDown	Assets/Scripts/CameraController.cs	/^        ForwardDown,$/;"	e	enum:CameraController.Orientations	file:
+ForwardLeft	Assets/Scripts/CameraController.cs	/^        ForwardLeft,$/;"	e	enum:CameraController.Orientations	file:
+ForwardRight	Assets/Scripts/CameraController.cs	/^        ForwardRight,$/;"	e	enum:CameraController.Orientations	file:
+ForwardUp	Assets/Scripts/CameraController.cs	/^        ForwardUp,$/;"	e	enum:CameraController.Orientations	file:
+LateUpdate	Assets/Scripts/CameraController.cs	/^    void LateUpdate ()$/;"	m	class:CameraController	file:
+LeftBack	Assets/Scripts/CameraController.cs	/^        LeftBack,$/;"	e	enum:CameraController.Orientations	file:
+LeftDown	Assets/Scripts/CameraController.cs	/^        LeftDown,$/;"	e	enum:CameraController.Orientations	file:
+LeftForward	Assets/Scripts/CameraController.cs	/^        LeftForward,$/;"	e	enum:CameraController.Orientations	file:
+LeftUp	Assets/Scripts/CameraController.cs	/^        LeftUp,$/;"	e	enum:CameraController.Orientations	file:
+Orientations	Assets/Scripts/CameraController.cs	/^    enum Orientations {$/;"	g	class:CameraController
+POSITION_BACK	Assets/Scripts/CameraController.cs	/^    Vector3 POSITION_BACK = new Vector3 (0.0f, 0.0f, -10.0f);$/;"	f	class:CameraController	file:
+POSITION_DOWN	Assets/Scripts/CameraController.cs	/^    Vector3 POSITION_DOWN = new Vector3 (0.0f, -10.0f, 0.0f);$/;"	f	class:CameraController	file:
+POSITION_FORWARD	Assets/Scripts/CameraController.cs	/^    Vector3 POSITION_FORWARD = new Vector3 (0.0f, 0.0f, 10.0f);$/;"	f	class:CameraController	file:
+POSITION_LEFT	Assets/Scripts/CameraController.cs	/^    Vector3 POSITION_LEFT = new Vector3 (-10.0f, 0.0f, 0.0f);$/;"	f	class:CameraController	file:
+POSITION_RIGHT	Assets/Scripts/CameraController.cs	/^    Vector3 POSITION_RIGHT = new Vector3 (10.0f, 0.0f, 0.0f);$/;"	f	class:CameraController	file:
+POSITION_UP	Assets/Scripts/CameraController.cs	/^    Vector3 POSITION_UP = new Vector3 (0.0f, 10.0f, 0.0f);$/;"	f	class:CameraController	file:
+PlayerController	Assets/Scripts/PlayerController.cs	/^public class PlayerController : MonoBehaviour$/;"	c
+ROTATION_BACK_D	Assets/Scripts/CameraController.cs	/^    Quaternion ROTATION_BACK_D = Quaternion.Euler (0.0f, 0.0f, 180.0f);$/;"	f	class:CameraController	file:
+ROTATION_BACK_L	Assets/Scripts/CameraController.cs	/^    Quaternion ROTATION_BACK_L = Quaternion.Euler (0.0f, 0.0f, 90.0f);$/;"	f	class:CameraController	file:
+ROTATION_BACK_R	Assets/Scripts/CameraController.cs	/^    Quaternion ROTATION_BACK_R = Quaternion.Euler (0.0f, 0.0f, 270.0f);$/;"	f	class:CameraController	file:
+ROTATION_BACK_U	Assets/Scripts/CameraController.cs	/^    Quaternion ROTATION_BACK_U = Quaternion.Euler (0.0f, 0.0f, 0.0f);$/;"	f	class:CameraController	file:
+ROTATION_DOWN_B	Assets/Scripts/CameraController.cs	/^    Quaternion ROTATION_DOWN_B = Quaternion.Euler (-90.0f, 0.0f, 0.0f);$/;"	f	class:CameraController	file:
+ROTATION_DOWN_F	Assets/Scripts/CameraController.cs	/^    Quaternion ROTATION_DOWN_F = Quaternion.Euler (-90.0f, 180.0f, 0.0f);$/;"	f	class:CameraController	file:
+ROTATION_DOWN_L	Assets/Scripts/CameraController.cs	/^    Quaternion ROTATION_DOWN_L = Quaternion.Euler (-90.0f, 90.0f, 0.0f);$/;"	f	class:CameraController	file:
+ROTATION_DOWN_R	Assets/Scripts/CameraController.cs	/^    Quaternion ROTATION_DOWN_R = Quaternion.Euler (-90.0f, 270.0f, 0.0f);$/;"	f	class:CameraController	file:
+ROTATION_FORWARD_D	Assets/Scripts/CameraController.cs	/^    Quaternion ROTATION_FORWARD_D = Quaternion.Euler (0.0f, 180.0f, 180.0f);$/;"	f	class:CameraController	file:
+ROTATION_FORWARD_L	Assets/Scripts/CameraController.cs	/^    Quaternion ROTATION_FORWARD_L = Quaternion.Euler (0.0f, 180.0f, 270.0f);$/;"	f	class:CameraController	file:
+ROTATION_FORWARD_R	Assets/Scripts/CameraController.cs	/^    Quaternion ROTATION_FORWARD_R = Quaternion.Euler (0.0f, 180.0f, 90.0f);$/;"	f	class:CameraController	file:
+ROTATION_FORWARD_U	Assets/Scripts/CameraController.cs	/^    Quaternion ROTATION_FORWARD_U = Quaternion.Euler (0.0f, 180.0f, 0.0f);$/;"	f	class:CameraController	file:
+ROTATION_LEFT_B	Assets/Scripts/CameraController.cs	/^    Quaternion ROTATION_LEFT_B = Quaternion.Euler (0.0f, 90.0f, 270.0f);$/;"	f	class:CameraController	file:
+ROTATION_LEFT_D	Assets/Scripts/CameraController.cs	/^    Quaternion ROTATION_LEFT_D = Quaternion.Euler (0.0f, 90.0f, 180.0f);$/;"	f	class:CameraController	file:
+ROTATION_LEFT_F	Assets/Scripts/CameraController.cs	/^    Quaternion ROTATION_LEFT_F = Quaternion.Euler (0.0f, 90.0f, 90.0f);$/;"	f	class:CameraController	file:
+ROTATION_LEFT_U	Assets/Scripts/CameraController.cs	/^    Quaternion ROTATION_LEFT_U = Quaternion.Euler (0.0f, 90.0f, 0.0f);$/;"	f	class:CameraController	file:
+ROTATION_RIGHT_B	Assets/Scripts/CameraController.cs	/^    Quaternion ROTATION_RIGHT_B = Quaternion.Euler (0.0f, 270.0f, 90.0f);$/;"	f	class:CameraController	file:
+ROTATION_RIGHT_D	Assets/Scripts/CameraController.cs	/^    Quaternion ROTATION_RIGHT_D = Quaternion.Euler (0.0f, 270.0f, 180.0f);$/;"	f	class:CameraController	file:
+ROTATION_RIGHT_F	Assets/Scripts/CameraController.cs	/^    Quaternion ROTATION_RIGHT_F = Quaternion.Euler (0.0f, 270.0f, 270.0f);$/;"	f	class:CameraController	file:
+ROTATION_RIGHT_U	Assets/Scripts/CameraController.cs	/^    Quaternion ROTATION_RIGHT_U = Quaternion.Euler (0.0f, 270.0f, 0.0f);$/;"	f	class:CameraController	file:
+ROTATION_UP_B	Assets/Scripts/CameraController.cs	/^    Quaternion ROTATION_UP_B = Quaternion.Euler (90.0f, 0.0f, 180.0f);$/;"	f	class:CameraController	file:
+ROTATION_UP_F	Assets/Scripts/CameraController.cs	/^    Quaternion ROTATION_UP_F = Quaternion.Euler (90.0f, 0.0f, 0.0f);$/;"	f	class:CameraController	file:
+ROTATION_UP_L	Assets/Scripts/CameraController.cs	/^    Quaternion ROTATION_UP_L = Quaternion.Euler (90.0f, 0.0f, 90.0f);$/;"	f	class:CameraController	file:
+ROTATION_UP_R	Assets/Scripts/CameraController.cs	/^    Quaternion ROTATION_UP_R = Quaternion.Euler (90.0f, 0.0f, 270.0f);$/;"	f	class:CameraController	file:
+RightBack	Assets/Scripts/CameraController.cs	/^        RightBack,$/;"	e	enum:CameraController.Orientations	file:
+RightDown	Assets/Scripts/CameraController.cs	/^        RightDown,$/;"	e	enum:CameraController.Orientations	file:
+RightForward	Assets/Scripts/CameraController.cs	/^        RightForward$/;"	e	enum:CameraController.Orientations	file:
+RightUp	Assets/Scripts/CameraController.cs	/^        RightUp,$/;"	e	enum:CameraController.Orientations	file:
+RotateBack	Assets/Scripts/CameraController.cs	/^    public void RotateBack ()$/;"	m	class:CameraController
+RotateDown	Assets/Scripts/CameraController.cs	/^    public void RotateDown ()$/;"	m	class:CameraController
+RotateForward	Assets/Scripts/CameraController.cs	/^    public void RotateForward ()$/;"	m	class:CameraController
+RotateLeft	Assets/Scripts/CameraController.cs	/^    public void RotateLeft ()$/;"	m	class:CameraController
+RotateRight	Assets/Scripts/CameraController.cs	/^    public void RotateRight ()$/;"	m	class:CameraController
+RotateUp	Assets/Scripts/CameraController.cs	/^    public void RotateUp ()$/;"	m	class:CameraController
+Start	Assets/Scripts/CameraController.cs	/^    void Start ()$/;"	m	class:CameraController	file:
+Start	Assets/Scripts/PlayerController.cs	/^    void Start ()$/;"	m	class:PlayerController	file:
+UpBack	Assets/Scripts/CameraController.cs	/^        UpBack,$/;"	e	enum:CameraController.Orientations	file:
+UpForward	Assets/Scripts/CameraController.cs	/^        UpForward,$/;"	e	enum:CameraController.Orientations	file:
+UpLeft	Assets/Scripts/CameraController.cs	/^        UpLeft,$/;"	e	enum:CameraController.Orientations	file:
+UpRight	Assets/Scripts/CameraController.cs	/^        UpRight,$/;"	e	enum:CameraController.Orientations	file:
+Update	Assets/Scripts/PlayerController.cs	/^    void Update ()$/;"	m	class:PlayerController	file:
+cameraController	Assets/Scripts/PlayerController.cs	/^    CameraController cameraController;$/;"	f	class:PlayerController	file:
+gFollowingCamera	Assets/Scripts/PlayerController.cs	/^    public GameObject gFollowingCamera;$/;"	f	class:PlayerController
+gNormal	Assets/Scripts/PlayerController.cs	/^    public Vector3 gNormal;$/;"	f	class:PlayerController
+gPlane	Assets/Scripts/PlayerController.cs	/^    public Plane gPlane;$/;"	f	class:PlayerController
+gRotationSpeed	Assets/Scripts/CameraController.cs	/^    public float gRotationSpeed;$/;"	f	class:CameraController
+gSpeed	Assets/Scripts/PlayerController.cs	/^    public float gSpeed = 6.0f;$/;"	f	class:PlayerController
+ground	Assets/Scripts/PlayerController.cs	/^    GameObject ground;$/;"	f	class:PlayerController	file:
+groundVector	Assets/Scripts/PlayerController.cs	/^    Vector3 groundVector;$/;"	f	class:PlayerController	file:
+kRotatorBackTag	Assets/Scripts/PlayerController.cs	/^    const string kRotatorBackTag = "RotatorBack";$/;"	f	class:PlayerController	file:
+kRotatorDownTag	Assets/Scripts/PlayerController.cs	/^    const string kRotatorDownTag = "RotatorDown";$/;"	f	class:PlayerController	file:
+kRotatorForwardTag	Assets/Scripts/PlayerController.cs	/^    const string kRotatorForwardTag = "RotatorForward";$/;"	f	class:PlayerController	file:
+kRotatorLeftTag	Assets/Scripts/PlayerController.cs	/^    const string kRotatorLeftTag = "RotatorLeft";$/;"	f	class:PlayerController	file:
+kRotatorRightTag	Assets/Scripts/PlayerController.cs	/^    const string kRotatorRightTag = "RotatorRight";$/;"	f	class:PlayerController	file:
+kRotatorUpTag	Assets/Scripts/PlayerController.cs	/^    const string kRotatorUpTag = "RotatorUp";$/;"	f	class:PlayerController	file:
+normal	Assets/Scripts/CameraController.cs	/^    Vector3 normal;$/;"	f	class:CameraController	file:
+orientation	Assets/Scripts/CameraController.cs	/^    Orientations orientation;$/;"	f	class:CameraController	file:
+player	Assets/Scripts/CameraController.cs	/^    public GameObject player;$/;"	f	class:CameraController
+relativeMousePosition	Assets/Scripts/PlayerController.cs	/^    Vector3 relativeMousePosition ()$/;"	m	class:PlayerController	file:
+stepTowards	Assets/Scripts/PlayerController.cs	/^    Vector3 stepTowards (Vector3 current, Vector3 target, float maxDistanceDelta)$/;"	m	class:PlayerController	file:
+targetPos	Assets/Scripts/PlayerController.cs	/^    Vector3 targetPos;$/;"	f	class:PlayerController	file:
+targetPosition	Assets/Scripts/CameraController.cs	/^    Vector3 targetPosition;$/;"	f	class:CameraController	file:
+targetRotation	Assets/Scripts/CameraController.cs	/^    Quaternion targetRotation;$/;"	f	class:CameraController	file:
+toGrid	Assets/Scripts/PlayerController.cs	/^    Vector3 toGrid (Vector3 vector)$/;"	m	class:PlayerController	file:
+toPosition	Assets/Scripts/PlayerController.cs	/^    Vector3 toPosition (Vector3 v)$/;"	m	class:PlayerController	file:
