@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayerController : MonoBehaviour
 {
     // The camera following the player.
-    public GameObject gFollowingCamera;
+    public Camera gFollowingCamera;
     // The player's current speed.
     public float gSpeed = 6.0f;
     // The player's current normal vector.
@@ -42,10 +42,9 @@ public class PlayerController : MonoBehaviour
             RaycastHit hit;
             Physics.Raycast (position, -gNormal, out hit);
             ground = hit.collider.gameObject;
-            if (Vector3.Distance(ground.transform.position, transform.position) > 10.0f) {
-               // do nothing
-            }
-            else if (ground.tag == kRotatorBackTag) {
+            Vector3 hitPoint = hit.point;
+
+            if (ground.tag == kRotatorBackTag) {
                 cameraController.RotateBack();
                 gNormal = Vector3.back;
             }
@@ -69,64 +68,78 @@ public class PlayerController : MonoBehaviour
                 cameraController.RotateRight();
                 gNormal = Vector3.right;
             }
-        }
 
-        // get the target position from the mouse (or touch) position
-        if (Input.GetMouseButton (0)) {
-            Vector3 rMousePos = relativeMousePosition();
-            Vector3 newTargetPos = toPosition(position + toGrid (rMousePos));
-            Vector3 targetDir = toGrid(newTargetPos - position);
+            if (Input.GetMouseButtonDown(0)) {
+                Vector3 rMousePos = relativeMousePosition();
+                Vector3 newTargetPos = toPosition(position + toGrid (rMousePos));
+                Vector3 targetDir = toGrid(newTargetPos - position);
 
-            // Update target position if
-            // - you've reached the target position and
-            // - the touch isn't directly over you
-            bool shouldUpdateTargetPosition = atTargetPosition
-                && Vector3.Distance(rMousePos, Vector3.zero) > 1;
+                bool mouseOnPlayer = Vector3.Distance(rMousePos, Vector3.zero) < 1;
+                if (mouseOnPlayer) {
+                    Plane groundPlane = new Plane(gNormal, hitPoint);
+                    float distanceToGround = groundPlane.GetDistanceToPoint(transform.position) + 0.5f;
+                    Debug.Log(distanceToGround);
+                    targetPos = transform.position - gNormal*distanceToGround + gNormal;
+                }
+            }
 
-            if (shouldUpdateTargetPosition) {
-                bool colliderAtTarget = Physics.Raycast(position, targetDir, 1.0f);
-                bool voidAtTarget = colliderAtTarget ? false : !Physics.Raycast(newTargetPos, -gNormal);
+            // get the target position from the mouse (or touch) position
+            if (Input.GetMouseButton(0)) {
+                Vector3 rMousePos = relativeMousePosition();
+                Vector3 newTargetPos = toPosition(position + toGrid (rMousePos));
+                Vector3 targetDir = toGrid(newTargetPos - position);
 
-                bool stepAboveTarget = false;
-                if (colliderAtTarget) {
-                    stepAboveTarget = Physics.Raycast(newTargetPos + gNormal, -gNormal, 0.5f);
+                bool mouseOnPlayer = Vector3.Distance(rMousePos, Vector3.zero) < 1;
+                // Update target position if
+                // - you've reached the target position and
+                // - the touch isn't directly over you
+                bool shouldUpdateTargetPosition = atTargetPosition && !mouseOnPlayer;
+
+                if (shouldUpdateTargetPosition) {
+                    bool colliderAtTarget = Physics.Raycast(position, targetDir, 1.0f);
+                    bool voidAtTarget = colliderAtTarget ? false : !Physics.Raycast(newTargetPos, -gNormal, 2.0f);
+
+                    bool stepAboveTarget = false;
+                    if (colliderAtTarget) {
+                        stepAboveTarget = Physics.Raycast(newTargetPos + gNormal, -gNormal, 0.5f);
                         /* && !Physics.Raycast(position + groundVector, -gNormal, 1.0f) */
                         /* && !Physics.Raycast(position + gNormal, targetDir, 1.5f); */
-                }
+                    }
 
-                bool stepBelowTarget = false;
-                if (!colliderAtTarget) {
-                    stepBelowTarget = Physics.Raycast(newTargetPos - gNormal, -gNormal, 1.0f)
-                        && !Physics.Raycast(newTargetPos, -gNormal, 0.5f);
-                }
+                    bool stepBelowTarget = false;
+                    if (!colliderAtTarget) {
+                        stepBelowTarget = Physics.Raycast(newTargetPos - gNormal, -gNormal, 1.0f)
+                            && !Physics.Raycast(newTargetPos, -gNormal, 0.5f);
+                    }
 
-                if (!colliderAtTarget && !voidAtTarget) {
-                    // Step down.
-                    if (stepBelowTarget) {
-                        newTargetPos -= gNormal;
+                    if (!colliderAtTarget && !voidAtTarget) {
+                        // Step down.
+                        if (stepBelowTarget) {
+                            newTargetPos -= gNormal;
+                            gPlane.SetNormalAndPosition (newTargetPos, gNormal);
+                            targetPos = newTargetPos;
+                            // Step forward.
+                        } else {
+                            targetPos = newTargetPos;
+                        }
+                    }
+                    // Step up.
+                    else if (colliderAtTarget && stepAboveTarget) {
+                        newTargetPos += gNormal;
                         gPlane.SetNormalAndPosition (newTargetPos, gNormal);
-                        targetPos = newTargetPos;
-                        // Step forward.
-                    } else {
                         targetPos = newTargetPos;
                     }
                 }
-                // Step up.
-                else if (colliderAtTarget && stepAboveTarget) {
-                    newTargetPos += gNormal;
-                    gPlane.SetNormalAndPosition (newTargetPos, gNormal);
-                    targetPos = newTargetPos;
-                }
+
             }
         }
-
-        transform.position = stepTowards (position, targetPos, gSpeed * Time.deltaTime);
+        transform.position = stepTowards(position, targetPos, gSpeed * Time.deltaTime);
     }
 
     // Returns the vector moving the current vector towards the target vector.
     // If the target point is above the current point, this will will move it up and then along the new plane.
     // If the target point is below the current point, this will move it along the current plane and then down.
-    Vector3 stepTowards (Vector3 current, Vector3 target, float maxDistanceDelta)
+    Vector3 stepTowards(Vector3 current, Vector3 target, float maxDistanceDelta)
     {
         Vector3 v = current;
         Plane currentPlane = new Plane (gNormal, current);
