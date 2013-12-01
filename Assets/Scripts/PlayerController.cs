@@ -42,7 +42,10 @@ public class PlayerController : MonoBehaviour
             RaycastHit hit;
             Physics.Raycast (position, -gNormal, out hit);
             ground = hit.collider.gameObject;
-            if (ground.tag == kRotatorBackTag) {
+            if (Vector3.Distance(ground.transform.position, transform.position) > 10.0f) {
+               // do nothing
+            }
+            else if (ground.tag == kRotatorBackTag) {
                 cameraController.RotateBack();
                 gNormal = Vector3.back;
             }
@@ -70,30 +73,31 @@ public class PlayerController : MonoBehaviour
 
         // get the target position from the mouse (or touch) position
         if (Input.GetMouseButton (0)) {
-            Vector3 rMousePos = relativeMousePosition ();
-            Vector3 newTargetPos = toPosition (position + toGrid (rMousePos));
-            Vector3 targetDir = toGrid (newTargetPos - position);
+            Vector3 rMousePos = relativeMousePosition();
+            Vector3 newTargetPos = toPosition(position + toGrid (rMousePos));
+            Vector3 targetDir = toGrid(newTargetPos - position);
 
             // Update target position if
             // - you've reached the target position and
             // - the touch isn't directly over you
             bool shouldUpdateTargetPosition = atTargetPosition
-                && Vector3.Distance (rMousePos, Vector3.zero) > 1;
+                && Vector3.Distance(rMousePos, Vector3.zero) > 1;
 
             if (shouldUpdateTargetPosition) {
-                bool colliderAtTarget = Physics.Raycast (position, targetDir, 1.0f);
-                bool voidAtTarget = colliderAtTarget ? false : !Physics.Raycast (newTargetPos, -gNormal);
+                bool colliderAtTarget = Physics.Raycast(position, targetDir, 1.0f);
+                bool voidAtTarget = colliderAtTarget ? false : !Physics.Raycast(newTargetPos, -gNormal);
 
                 bool stepAboveTarget = false;
                 if (colliderAtTarget) {
-                    stepAboveTarget = Physics.Raycast (newTargetPos + gNormal, -gNormal, 0.5f)
-                        && !Physics.Raycast (position + groundVector, -gNormal, 1.0f)
-                        && !Physics.Raycast (position - gNormal, targetDir, 1.5f);
+                    stepAboveTarget = Physics.Raycast(newTargetPos + gNormal, -gNormal, 0.5f);
+                        /* && !Physics.Raycast(position + groundVector, -gNormal, 1.0f) */
+                        /* && !Physics.Raycast(position + gNormal, targetDir, 1.5f); */
                 }
 
                 bool stepBelowTarget = false;
                 if (!colliderAtTarget) {
-                    stepBelowTarget = Physics.Raycast (newTargetPos - gNormal, -gNormal, 1.0f);
+                    stepBelowTarget = Physics.Raycast(newTargetPos - gNormal, -gNormal, 1.0f)
+                        && !Physics.Raycast(newTargetPos, -gNormal, 0.5f);
                 }
 
                 if (!colliderAtTarget && !voidAtTarget) {

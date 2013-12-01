@@ -32,12 +32,13 @@ public class CameraController : MonoBehaviour
         RightForward
     };
 
-    Vector3 POSITION_UP = new Vector3 (0.0f, 10.0f, 0.0f);
-    Vector3 POSITION_DOWN = new Vector3 (0.0f, -10.0f, 0.0f);
-    Vector3 POSITION_FORWARD = new Vector3 (0.0f, 0.0f, 10.0f);
-    Vector3 POSITION_BACK = new Vector3 (0.0f, 0.0f, -10.0f);
-    Vector3 POSITION_LEFT = new Vector3 (-10.0f, 0.0f, 0.0f);
-    Vector3 POSITION_RIGHT = new Vector3 (10.0f, 0.0f, 0.0f);
+    static float height = 10.0f;
+    Vector3 POSITION_UP = new Vector3 (0.0f, height, 0.0f);
+    Vector3 POSITION_DOWN = new Vector3 (0.0f, -height, 0.0f);
+    Vector3 POSITION_FORWARD = new Vector3 (0.0f, 0.0f, height);
+    Vector3 POSITION_BACK = new Vector3 (0.0f, 0.0f, -height);
+    Vector3 POSITION_LEFT = new Vector3 (-height, 0.0f, 0.0f);
+    Vector3 POSITION_RIGHT = new Vector3 (height, 0.0f, 0.0f);
 
     Quaternion[] rotations = {
         Quaternion.Euler (90.0f, 0.0f, 0.0f),        // UpForward
