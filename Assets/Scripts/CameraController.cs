@@ -40,21 +40,55 @@ public class CameraController : MonoBehaviour
     Vector3 POSITION_LEFT = new Vector3 (-height, 0.0f, 0.0f);
     Vector3 POSITION_RIGHT = new Vector3 (height, 0.0f, 0.0f);
 
-    Quaternion[] rotations = {
-        Quaternion.Euler (90.0f, 0.0f, 0.0f),        // UpForward
-        Quaternion.Euler (90.0f, 0.0f, 90.0f),       // UpLeft
-        Quaternion.Euler (90.0f, 0.0f, 180.0f),      // UpBack
-        Quaternion.Euler (90.0f, 0.0f, 270.0f),      // UpRight
+    string[,] allowedRotations = {
+        // [Up, Left, Back, Right]
+        {"Back", "Left", "Forward", "Right"}, // UpForward
+        {"Left", "Forward", "Right", "Back"}, // UpLeft
+        {"Forward", "Right", "Back", "Left"}, // UpBack
+        {"Right", "Back", "Left", "Forward"}, // UpRight
 
-        Quaternion.Euler (-90.0f, 0.0f, 0.0f),       // DownBack
-        Quaternion.Euler (-90.0f, 90.0f, 0.0f),     // DownLeft
+        {"Forward", "Right", "Back", "Left"}, // DownBack
+        {"Right", "Back", "Left", "Forward"}, // DownLeft
+        {"Back", "Left", "Forward", "Right"}, // DownForward
+        {"Left", "Forward", "Right", "Back"}, // DownRight
+
+        {"Up", "Right", "Down", "Left"},      // ForwardUp
+        {"Right", "Down", "Left", "Up"},      // ForwardRight
+        {"Down", "Left", "Up", "Right"},      // ForwardDown
+        {"Left", "Up", "Right", "Down"},      // ForwardLeft
+
+        {"Up", "Left", "Down", "Right"},      // BackUp
+        {"Left", "Down", "Right", "Up"},      // BackLeft
+        {"Down", "Right", "Up", "Left"},      // BackDown
+        {"Right", "Up", "Left", "Down"},      // BackRight
+
+        {"Down", "Forward", "Up", "Back"},    // LeftUp
+        {"Forward", "Up", "Back", "Down"},    // LeftForward
+        {"Up", "Back", "Down", "Forward"},    // LeftDown
+        {"Back", "Down", "Forward", "Up"},    // LeftBack
+
+        {"Down", "Back", "Up", "Forward"},    // RightUp
+        {"Back", "Up", "Forward", "Down"},    // RightBack
+        {"Up", "Forward", "Down", "Back"},    // RightDown
+        {"Forward", "Down", "Back", "Up"}     // RightForward
+    };
+
+
+    Quaternion[] rotations = {
+        Quaternion.Euler (90.0f, 0.0f, 0.0f),      // UpForward
+        Quaternion.Euler (90.0f, 0.0f, 90.0f),     // UpLeft
+        Quaternion.Euler (90.0f, 0.0f, 180.0f),    // UpBack
+        Quaternion.Euler (90.0f, 0.0f, 270.0f),    // UpRight
+
+        Quaternion.Euler (-90.0f, 0.0f, 0.0f),     // DownBack
+        Quaternion.Euler (-90.0f, 90.0f, 0.0f),    // DownLeft
         Quaternion.Euler (-90.0f, 180.0f, 0.0f),   // DownForward
         Quaternion.Euler (-90.0f, 270.0f, 0.0f),   // DownRight
 
-        Quaternion.Euler (0.0f, 180.0f, 0.0f),      // ForwardUp
-        Quaternion.Euler (0.0f, 180.0f, 90.0f), // ForwardRight
-        Quaternion.Euler (0.0f, 180.0f, 180.0f),// ForwardDown
-        Quaternion.Euler (0.0f, 180.0f, 270.0f),// ForwardLeft
+        Quaternion.Euler (0.0f, 180.0f, 0.0f),     // ForwardUp
+        Quaternion.Euler (0.0f, 180.0f, 90.0f),    // ForwardRight
+        Quaternion.Euler (0.0f, 180.0f, 180.0f),   // ForwardDown
+        Quaternion.Euler (0.0f, 180.0f, 270.0f),   // ForwardLeft
 
         Quaternion.Euler (0.0f, 0.0f, 0.0f),       // BackUp
         Quaternion.Euler (0.0f, 0.0f, 90.0f),      // BackLeft
@@ -66,24 +100,26 @@ public class CameraController : MonoBehaviour
         Quaternion.Euler (0.0f, 90.0f, 180.0f),    // LeftDown
         Quaternion.Euler (0.0f, 90.0f, 270.0f),    // LeftBack
 
-        Quaternion.Euler (0.0f, 270.0f, 0.0f),    // RightUp
-        Quaternion.Euler (0.0f, 270.0f, 90.0f),   // RightBack
-        Quaternion.Euler (0.0f, 270.0f, 180.0f),  // RightDown
-        Quaternion.Euler (0.0f, 270.0f, 270.0f)  // RightForward
+        Quaternion.Euler (0.0f, 270.0f, 0.0f),     // RightUp
+        Quaternion.Euler (0.0f, 270.0f, 90.0f),    // RightBack
+        Quaternion.Euler (0.0f, 270.0f, 180.0f),   // RightDown
+        Quaternion.Euler (0.0f, 270.0f, 270.0f)    // RightForward
     };
 
     public GameObject player;
     public float gRotationSpeed;
     public Orientations startOrientation;
+    public Orientations orientation;
 
     Vector3 targetPosition;
     Vector3 normal;
-    Orientations orientation;
     Quaternion targetRotation;
+    PlayerController playerController;
 
     void Start ()
     {
         SetOrientation(startOrientation);
+        playerController = player.GetComponent<PlayerController> ();
     }
 
     void LateUpdate ()
@@ -120,7 +156,51 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    public void RotateUp ()
+    public void Rotate(string r)
+    {
+        if (r.Contains("Up")) {
+            RotateUp();
+            playerController.gNormal = Vector3.up;
+        }
+        else if (r.Contains("Down")) {
+            RotateDown();
+            playerController.gNormal = Vector3.down;
+        }
+        else if (r.Contains("Forward")) {
+            RotateForward();
+            playerController.gNormal = Vector3.forward;
+        }
+        else if (r.Contains("Back")) {
+            RotateBack();
+            playerController.gNormal = Vector3.back;
+        }
+        else if (r.Contains("Left")) {
+            RotateLeft();
+            playerController.gNormal = Vector3.left;
+        }
+        else if (r.Contains("Right")) {
+            RotateRight();
+            playerController.gNormal = Vector3.right;
+        }
+    }
+
+    public void RotateWithKey(string k)
+    {
+        if (k == "w") {
+            Rotate(allowedRotations[(int)orientation, 0]);
+        }
+        else if (k == "a") {
+            Rotate(allowedRotations[(int)orientation, 1]);
+        }
+        else if (k == "s") {
+            Rotate(allowedRotations[(int)orientation, 2]);
+        }
+        else if (k == "d") {
+            Rotate(allowedRotations[(int)orientation, 3]);
+        }
+    }
+
+    void RotateUp ()
     {
         if (orientation == Orientations.LeftForward
                 || orientation == Orientations.RightForward
@@ -152,7 +232,7 @@ public class CameraController : MonoBehaviour
         targetPosition = POSITION_UP;
     }
 
-    public void RotateDown ()
+    void RotateDown ()
     {
         if (orientation == Orientations.LeftBack
                 || orientation == Orientations.RightBack
@@ -184,7 +264,7 @@ public class CameraController : MonoBehaviour
         targetPosition = POSITION_DOWN;
     }
 
-    public void RotateForward ()
+    void RotateForward ()
     {
         if (orientation == Orientations.UpForward
                 || orientation == Orientations.RightDown
@@ -216,7 +296,7 @@ public class CameraController : MonoBehaviour
         targetPosition = POSITION_FORWARD;
     }
 
-    public void RotateBack ()
+    void RotateBack ()
     {
         if (orientation == Orientations.UpForward
                 || orientation == Orientations.RightUp
@@ -249,7 +329,7 @@ public class CameraController : MonoBehaviour
     }
 
 
-    public void RotateLeft ()
+    void RotateLeft ()
     {
         if (orientation == Orientations.UpForward
                 || orientation == Orientations.DownForward
@@ -281,7 +361,7 @@ public class CameraController : MonoBehaviour
         targetPosition = POSITION_LEFT;
     }
 
-    public void RotateRight ()
+    void RotateRight ()
     {
         if (orientation == Orientations.UpForward
                 || orientation == Orientations.DownForward

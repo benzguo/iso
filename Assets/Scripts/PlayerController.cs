@@ -44,32 +44,25 @@ public class PlayerController : MonoBehaviour
             ground = hit.collider.gameObject;
             Vector3 hitPoint = hit.point;
 
-            if (ground.tag == kRotatorBackTag) {
-                cameraController.RotateBack();
-                gNormal = Vector3.back;
-            }
-            else if (ground.tag == kRotatorDownTag) {
-                cameraController.RotateDown();
-                gNormal = Vector3.down;
-            }
-            else if (ground.tag == kRotatorForwardTag) {
-                cameraController.RotateForward();
-                gNormal = Vector3.forward;
-            }
-            else if (ground.tag == kRotatorLeftTag) {
-                cameraController.RotateLeft();
-                gNormal = Vector3.left;
-            }
-            else if (ground.tag == kRotatorUpTag) {
-                cameraController.RotateUp();
-                gNormal = Vector3.up;
-            }
-            else if (ground.tag == kRotatorRightTag) {
-                cameraController.RotateRight();
-                gNormal = Vector3.right;
+            if (ground) {
+                cameraController.Rotate(ground.tag);
             }
 
-            if (Input.GetMouseButtonDown(0)) {
+            if (Input.GetKeyDown("w")) {
+                cameraController.RotateWithKey("w");
+            }
+            else if (Input.GetKeyDown("a")) {
+                cameraController.RotateWithKey("a");
+            }
+            else if (Input.GetKeyDown("s")) {
+                cameraController.RotateWithKey("s");
+            }
+            else if (Input.GetKeyDown("d")) {
+                cameraController.RotateWithKey("d");
+            }
+
+            // tap on the cube to push the cube down to the plane below
+            else if (Input.GetMouseButtonDown(0)) {
                 Vector3 rMousePos = relativeMousePosition();
                 Vector3 newTargetPos = toPosition(position + toGrid (rMousePos));
                 Vector3 targetDir = toGrid(newTargetPos - position);
@@ -83,8 +76,8 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            // get the target position from the mouse (or touch) position
-            if (Input.GetMouseButton(0)) {
+            // tap next to the cube to move it
+            else if (Input.GetMouseButton(0)) {
                 Vector3 rMousePos = relativeMousePosition();
                 Vector3 newTargetPos = toPosition(position + toGrid (rMousePos));
                 Vector3 targetDir = toGrid(newTargetPos - position);
