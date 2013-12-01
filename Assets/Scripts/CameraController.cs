@@ -42,25 +42,25 @@ public class CameraController : MonoBehaviour
 
     string[,] allowedRotations = {
         // [Up, Left, Back, Right]
-        {"Back", "Left", "Forward", "Right"}, // UpForward
-        {"Left", "Forward", "Right", "Back"}, // UpLeft
-        {"Forward", "Right", "Back", "Left"}, // UpBack
-        {"Right", "Back", "Left", "Forward"}, // UpRight
+        {"Back", "Right", "Forward", "Left"}, // UpForward
+        {"Right", "Forward", "Left", "Back"}, // UpLeft
+        {"Forward", "Left", "Back", "Right"}, // UpBack
+        {"Left", "Back", "Right", "Forward"}, // UpRight
 
         {"Forward", "Right", "Back", "Left"}, // DownBack
         {"Right", "Back", "Left", "Forward"}, // DownLeft
         {"Back", "Left", "Forward", "Right"}, // DownForward
         {"Left", "Forward", "Right", "Back"}, // DownRight
 
-        {"Up", "Right", "Down", "Left"},      // ForwardUp
-        {"Right", "Down", "Left", "Up"},      // ForwardRight
-        {"Down", "Left", "Up", "Right"},      // ForwardDown
-        {"Left", "Up", "Right", "Down"},      // ForwardLeft
+        {"Down", "Right", "Up", "Left"},      // ForwardUp
+        {"Right", "Up", "Left", "Down"},      // ForwardRight
+        {"Up", "Left", "Down", "Right"},      // ForwardDown
+        {"Left", "Down", "Right", "Up"},      // ForwardLeft
 
-        {"Up", "Left", "Down", "Right"},      // BackUp
-        {"Left", "Down", "Right", "Up"},      // BackLeft
-        {"Down", "Right", "Up", "Left"},      // BackDown
-        {"Right", "Up", "Left", "Down"},      // BackRight
+        {"Down", "Left", "Up", "Right"},      // BackUp
+        {"Left", "Up", "Right", "Down"},      // BackLeft
+        {"Up", "Right", "Down", "Left"},      // BackDown
+        {"Right", "Down", "Left", "Up"},      // BackRight
 
         {"Down", "Forward", "Up", "Back"},    // LeftUp
         {"Forward", "Up", "Back", "Down"},    // LeftForward
@@ -109,8 +109,8 @@ public class CameraController : MonoBehaviour
     public GameObject player;
     public float gRotationSpeed;
     public Orientations startOrientation;
-    public Orientations orientation;
 
+    Orientations orientation;
     Vector3 targetPosition;
     Vector3 normal;
     Quaternion targetRotation;

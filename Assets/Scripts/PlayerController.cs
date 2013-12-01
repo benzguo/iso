@@ -39,13 +39,15 @@ public class PlayerController : MonoBehaviour
         Vector3 position = transform.position;
         bool atTargetPosition = position == targetPos;
         if (atTargetPosition) {
-            RaycastHit hit;
+            RaycastHit hit = default(RaycastHit);
+            Debug.Log(hit);
+            Vector3 hitPoint = default(Vector3);
             Physics.Raycast (position, -gNormal, out hit);
-            ground = hit.collider.gameObject;
-            Vector3 hitPoint = hit.point;
-
-            if (ground) {
-                cameraController.Rotate(ground.tag);
+            if (hit.collider) {
+                ground = hit.collider.gameObject;
+                Debug.Log(ground);
+                /* cameraController.Rotate(ground.tag); */
+                hitPoint = hit.point;
             }
 
             if (Input.GetKeyDown("w")) {
@@ -68,11 +70,12 @@ public class PlayerController : MonoBehaviour
                 Vector3 targetDir = toGrid(newTargetPos - position);
 
                 bool mouseOnPlayer = Vector3.Distance(rMousePos, Vector3.zero) < 1;
-                if (mouseOnPlayer) {
+                if (mouseOnPlayer && hit.collider) {
                     Plane groundPlane = new Plane(gNormal, hitPoint);
-                    float distanceToGround = groundPlane.GetDistanceToPoint(transform.position) + 0.5f;
-                    Debug.Log(distanceToGround);
-                    targetPos = transform.position - gNormal*distanceToGround + gNormal;
+                    int distanceToGround = (int)Mathf.Floor(groundPlane.GetDistanceToPoint(transform.position) + 0.5f);
+                    if (distanceToGround > 0) {
+                        targetPos = transform.position - gNormal*distanceToGround + gNormal;
+                    }
                 }
             }
 
