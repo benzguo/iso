@@ -33,12 +33,12 @@ public class CameraController : MonoBehaviour
     };
 
     static float height = 10.0f;
-    Vector3 POSITION_UP = new Vector3 (0.0f, height, 0.0f);
-    Vector3 POSITION_DOWN = new Vector3 (0.0f, -height, 0.0f);
-    Vector3 POSITION_FORWARD = new Vector3 (0.0f, 0.0f, height);
-    Vector3 POSITION_BACK = new Vector3 (0.0f, 0.0f, -height);
-    Vector3 POSITION_LEFT = new Vector3 (-height, 0.0f, 0.0f);
-    Vector3 POSITION_RIGHT = new Vector3 (height, 0.0f, 0.0f);
+    Vector3 POSITION_UP = new Vector3(0.0f, height, 0.0f);
+    Vector3 POSITION_DOWN = new Vector3(0.0f, -height, 0.0f);
+    Vector3 POSITION_FORWARD = new Vector3(0.0f, 0.0f, height);
+    Vector3 POSITION_BACK = new Vector3(0.0f, 0.0f, -height);
+    Vector3 POSITION_LEFT = new Vector3(-height, 0.0f, 0.0f);
+    Vector3 POSITION_RIGHT = new Vector3(height, 0.0f, 0.0f);
 
     string[,] allowedRotations = {
         // [Up, Left, Back, Right]
@@ -75,35 +75,35 @@ public class CameraController : MonoBehaviour
 
 
     Quaternion[] rotations = {
-        Quaternion.Euler (90.0f, 0.0f, 0.0f),      // UpForward
-        Quaternion.Euler (90.0f, 0.0f, 90.0f),     // UpLeft
-        Quaternion.Euler (90.0f, 0.0f, 180.0f),    // UpBack
-        Quaternion.Euler (90.0f, 0.0f, 270.0f),    // UpRight
+        Quaternion.Euler(90.0f, 0.0f, 0.0f),      // UpForward
+        Quaternion.Euler(90.0f, 0.0f, 90.0f),     // UpLeft
+        Quaternion.Euler(90.0f, 0.0f, 180.0f),    // UpBack
+        Quaternion.Euler(90.0f, 0.0f, 270.0f),    // UpRight
 
-        Quaternion.Euler (-90.0f, 0.0f, 0.0f),     // DownBack
-        Quaternion.Euler (-90.0f, 90.0f, 0.0f),    // DownLeft
-        Quaternion.Euler (-90.0f, 180.0f, 0.0f),   // DownForward
-        Quaternion.Euler (-90.0f, 270.0f, 0.0f),   // DownRight
+        Quaternion.Euler(-90.0f, 0.0f, 0.0f),     // DownBack
+        Quaternion.Euler(-90.0f, 90.0f, 0.0f),    // DownLeft
+        Quaternion.Euler(-90.0f, 180.0f, 0.0f),   // DownForward
+        Quaternion.Euler(-90.0f, 270.0f, 0.0f),   // DownRight
 
-        Quaternion.Euler (0.0f, 180.0f, 0.0f),     // ForwardUp
-        Quaternion.Euler (0.0f, 180.0f, 90.0f),    // ForwardRight
-        Quaternion.Euler (0.0f, 180.0f, 180.0f),   // ForwardDown
-        Quaternion.Euler (0.0f, 180.0f, 270.0f),   // ForwardLeft
+        Quaternion.Euler(0.0f, 180.0f, 0.0f),     // ForwardUp
+        Quaternion.Euler(0.0f, 180.0f, 90.0f),    // ForwardRight
+        Quaternion.Euler(0.0f, 180.0f, 180.0f),   // ForwardDown
+        Quaternion.Euler(0.0f, 180.0f, 270.0f),   // ForwardLeft
 
-        Quaternion.Euler (0.0f, 0.0f, 0.0f),       // BackUp
-        Quaternion.Euler (0.0f, 0.0f, 90.0f),      // BackLeft
-        Quaternion.Euler (0.0f, 0.0f, 180.0f),     // BackDown
-        Quaternion.Euler (0.0f, 0.0f, 270.0f),     // BackRight
+        Quaternion.Euler(0.0f, 0.0f, 0.0f),       // BackUp
+        Quaternion.Euler(0.0f, 0.0f, 90.0f),      // BackLeft
+        Quaternion.Euler(0.0f, 0.0f, 180.0f),     // BackDown
+        Quaternion.Euler(0.0f, 0.0f, 270.0f),     // BackRight
 
-        Quaternion.Euler (0.0f, 90.0f, 0.0f),      // LeftUp
-        Quaternion.Euler (0.0f, 90.0f, 90.0f),     // LeftForward
-        Quaternion.Euler (0.0f, 90.0f, 180.0f),    // LeftDown
-        Quaternion.Euler (0.0f, 90.0f, 270.0f),    // LeftBack
+        Quaternion.Euler(0.0f, 90.0f, 0.0f),      // LeftUp
+        Quaternion.Euler(0.0f, 90.0f, 90.0f),     // LeftForward
+        Quaternion.Euler(0.0f, 90.0f, 180.0f),    // LeftDown
+        Quaternion.Euler(0.0f, 90.0f, 270.0f),    // LeftBack
 
-        Quaternion.Euler (0.0f, 270.0f, 0.0f),     // RightUp
-        Quaternion.Euler (0.0f, 270.0f, 90.0f),    // RightBack
-        Quaternion.Euler (0.0f, 270.0f, 180.0f),   // RightDown
-        Quaternion.Euler (0.0f, 270.0f, 270.0f)    // RightForward
+        Quaternion.Euler(0.0f, 270.0f, 0.0f),     // RightUp
+        Quaternion.Euler(0.0f, 270.0f, 90.0f),    // RightBack
+        Quaternion.Euler(0.0f, 270.0f, 180.0f),   // RightDown
+        Quaternion.Euler(0.0f, 270.0f, 270.0f)    // RightForward
     };
 
     public GameObject player;
@@ -116,23 +116,23 @@ public class CameraController : MonoBehaviour
     Quaternion targetRotation;
     PlayerController playerController;
 
-    void Start ()
+    void Start()
     {
         SetOrientation(startOrientation);
         playerController = player.GetComponent<PlayerController> ();
     }
 
-    void LateUpdate ()
+    void LateUpdate()
     {
         transform.position = Vector3.Lerp (transform.position,
                 player.transform.position + targetPosition,
                 gRotationSpeed * Time.deltaTime);
         if (transform.rotation != targetRotation) {
-            transform.rotation = Quaternion.Slerp (transform.rotation, targetRotation, gRotationSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, gRotationSpeed * Time.deltaTime);
         }
     }
 
-    void SetOrientation (Orientations o)
+    void SetOrientation(Orientations o)
     {
         orientation = o;
         targetRotation = rotations[(int)o];
@@ -200,7 +200,7 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    void RotateUp ()
+    void RotateUp()
     {
         if (orientation == Orientations.LeftForward
                 || orientation == Orientations.RightForward
@@ -232,7 +232,7 @@ public class CameraController : MonoBehaviour
         targetPosition = POSITION_UP;
     }
 
-    void RotateDown ()
+    void RotateDown()
     {
         if (orientation == Orientations.LeftBack
                 || orientation == Orientations.RightBack
@@ -264,7 +264,7 @@ public class CameraController : MonoBehaviour
         targetPosition = POSITION_DOWN;
     }
 
-    void RotateForward ()
+    void RotateForward()
     {
         if (orientation == Orientations.UpForward
                 || orientation == Orientations.RightDown
@@ -296,7 +296,7 @@ public class CameraController : MonoBehaviour
         targetPosition = POSITION_FORWARD;
     }
 
-    void RotateBack ()
+    void RotateBack()
     {
         if (orientation == Orientations.UpForward
                 || orientation == Orientations.RightUp
@@ -329,7 +329,7 @@ public class CameraController : MonoBehaviour
     }
 
 
-    void RotateLeft ()
+    void RotateLeft()
     {
         if (orientation == Orientations.UpForward
                 || orientation == Orientations.DownForward
@@ -361,7 +361,7 @@ public class CameraController : MonoBehaviour
         targetPosition = POSITION_LEFT;
     }
 
-    void RotateRight ()
+    void RotateRight()
     {
         if (orientation == Orientations.UpForward
                 || orientation == Orientations.DownForward
