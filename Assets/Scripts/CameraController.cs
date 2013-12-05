@@ -112,14 +112,18 @@ public class CameraController : MonoBehaviour
 
     Orientations orientation;
     Vector3 targetPosition;
-    Vector3 normal;
     Quaternion targetRotation;
+    string targetMask;
     PlayerController playerController;
+    Camera camera;
+    static int defaultCullingMask = 1 << LayerMask.NameToLayer("Default");
 
     void Start()
     {
         SetOrientation(startOrientation);
-        playerController = player.GetComponent<PlayerController> ();
+        playerController = player.GetComponent<PlayerController>();
+        camera = GetComponent<Camera>();
+        camera.cullingMask = 1 << LayerMask.NameToLayer("Down") | defaultCullingMask;
     }
 
     void LateUpdate()
@@ -127,33 +131,44 @@ public class CameraController : MonoBehaviour
         transform.position = Vector3.Lerp (transform.position,
                 player.transform.position + targetPosition,
                 gRotationSpeed * Time.deltaTime);
-        if (transform.rotation != targetRotation) {
+        if (!transform.rotation.Equals(targetRotation)) {
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, gRotationSpeed * Time.deltaTime);
+        }
+        if (Quaternion.Angle(transform.rotation, targetRotation) < 10) {
+            camera.cullingMask = 1 << LayerMask.NameToLayer(targetMask) | defaultCullingMask;
         }
     }
 
     void SetOrientation(Orientations o)
     {
         orientation = o;
+        camera = GetComponent<Camera>();
         targetRotation = rotations[(int)o];
         if (o < Orientations.DownBack) {
             targetPosition = POSITION_UP;
+            targetMask = "Down";
         }
         else if (o >= Orientations.DownBack && o < Orientations.ForwardUp) {
             targetPosition = POSITION_DOWN;
+            targetMask = "Up";
         }
         else if (o >= Orientations.ForwardUp && o < Orientations.BackUp) {
             targetPosition = POSITION_FORWARD;
+            targetMask = "Back";
         }
         else if (o >= Orientations.BackUp && o < Orientations.LeftUp) {
             targetPosition = POSITION_BACK;
+            targetMask = "Forward";
         }
         else if (o >= Orientations.LeftUp && o < Orientations.RightUp) {
             targetPosition = POSITION_LEFT;
+            targetMask = "Right";
         }
         else if (o >= Orientations.RightUp) {
             targetPosition = POSITION_RIGHT;
+            targetMask = "Left";
         }
+        /* camera.cullingMask = 1 << LayerMask.NameToLayer(targetMask) | camera.cullingMask; */
     }
 
     public void Rotate(string r)
