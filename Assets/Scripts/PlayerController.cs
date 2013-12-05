@@ -10,9 +10,6 @@ public class PlayerController : MonoBehaviour
     // The player's current normal vector.
     public Vector3 gNormal;
 
-    // Vector from the player's position to the ground
-    Vector3 groundVector;
-
     // The player's current plane.
     public Plane gPlane;
     const string kRotatorBackTag = "RotatorBack";
@@ -28,7 +25,6 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         gNormal = Vector3.up;
-        groundVector = Vector3.Scale (-gNormal, new Vector3 (0.5f, 0.5f, 0.5f));
         gPlane = new Plane (gNormal, transform.position);
         targetPos = transform.position;
         cameraController = gFollowingCamera.GetComponent<CameraController> ();
@@ -66,8 +62,6 @@ public class PlayerController : MonoBehaviour
             // tap on the cube to push the cube down to the plane below
             else if (Input.GetMouseButtonDown(0)) {
                 Vector3 rMousePos = relativeMousePosition();
-                Vector3 newTargetPos = toPosition(position + toGrid (rMousePos));
-                Vector3 targetDir = toGrid(newTargetPos - position);
 
                 bool mouseOnPlayer = Vector3.Distance(rMousePos, Vector3.zero) < 1;
                 if (mouseOnPlayer && hit.collider) {
